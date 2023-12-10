@@ -1,0 +1,41 @@
+version: "3"
+services:
+  frontend:
+    build: ./frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3000:3000
+     depends_on:
+      - backend
+    networks:
+      - vending-network
+      
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8000:8000
+    networks:
+      - vending-network
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bluevend
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - vending-network
+      
+networks:
+  vending-network:
+    driver: bridge
