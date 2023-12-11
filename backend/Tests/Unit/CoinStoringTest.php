@@ -100,8 +100,8 @@ class CoinStoringTest extends TestCase
         $updatedCoin5 = $this->coinStoring->getCoinStoringByOwnerAndType('machine', '5');
 
         // Assert that the coin amounts are updated as expected
-        $this->assertEquals(0, $updatedCoin1['amount']); // Expected amount after deduction for coin '1'
-        $this->assertEquals(1, $updatedCoin5['amount']); // Expected amount after deduction for coin '5'
+        $this->assertEquals(9, $updatedCoin1['amount']); // Expected amount after deduction for coin '1'
+        $this->assertEquals(10, $updatedCoin5['amount']); // Expected amount after deduction for coin '5'
     }
 
     public function testResetToDefault()

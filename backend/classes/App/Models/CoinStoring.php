@@ -77,52 +77,88 @@ class CoinStoring
         }
     }
 
-    // Reset to default data
     public function resetToDefault()
     {
-        // Truncate the table to remove existing data
-        $truncateQuery = "TRUNCATE TABLE coin_storing";
-        $this->conn->query($truncateQuery);
+        $userResetResult = $this->resetUserCoins();
+        $machineResetResult = $this->resetMachineCoins();
 
-        // Default data
-        $defaultData = [
-            ['user', '1000', 1],
-            ['user', '500', 1],
-            ['user', '100', 1],
-            ['user', '50', 1],
-            ['user', '20', 1],
-            ['user', '10', 1],
-            ['user', '5', 1],
-            ['user', '1', 1],
-            ['machine', '1000', 1],
-            ['machine', '500', 1],
-            ['machine', '100', 1],
-            ['machine', '50', 1],
-            ['machine', '20', 1],
-            ['machine', '10', 1],
-            ['machine', '5', 1],
-            ['machine', '1', 1],
-        ];
-
-        // Current date
-        $currentDate = date('Y-m-d H:i:s');
-
-        // Prepare the INSERT query for default data
-        $insertQuery = "INSERT INTO coin_storing (owner, type, amount, createdAt, updatedAt) VALUES ";
-        foreach ($defaultData as $index => $data) {
-            $insertQuery .= "('" . $data[0] . "', '" . $data[1] . "', " . $data[2] . ", '" . $currentDate . "', '" . $currentDate . "')";
-            if ($index !== count($defaultData) - 1) {
-                $insertQuery .= ", ";
-            }
-        }
-
-        // Execute the single INSERT query for all default data
-        if ($this->conn->query($insertQuery) === TRUE) {
+        if ($userResetResult === true && $machineResetResult === true) {
             return "Reset to default data successful";
         } else {
-            return "Error inserting default data: " . $this->conn->error;
+            return "Error resetting to default data";
         }
     }
+
+    public function resetUserCoins()
+    {
+        $userDefaultData = [
+            ['user', '1000', 0],
+            ['user', '500', 0],
+            ['user', '100', 0],
+            ['user', '50', 0],
+            ['user', '20', 0],
+            ['user', '10', 0],
+            ['user', '5', 0],
+            ['user', '1', 0],
+        ];
+
+        $currentDate = date('Y-m-d H:i:s');
+
+        return $this->resetOwnerData($userDefaultData, $currentDate);
+    }
+
+    public function resetMachineCoins()
+    {
+        $machineDefaultData = [
+            ['machine', '1000', 1],
+            ['machine', '500', 2],
+            ['machine', '100', 5],
+            ['machine', '50', 5],
+            ['machine', '20', 10],
+            ['machine', '10', 10],
+            ['machine', '5', 10],
+            ['machine', '1', 10],
+        ];
+
+        $currentDate = date('Y-m-d H:i:s');
+
+        return $this->resetOwnerData($machineDefaultData, $currentDate);
+    }
+
+    private function resetOwnerData($defaultData, $currentDate)
+    {
+        $values = [];
+        foreach ($defaultData as $data) {
+            $values[] = "('" . $data[0] . "', '" . $data[1] . "', " . $data[2] . ", '" . $currentDate . "', '" . $currentDate . "')";
+        }
+
+        $insertQuery = "INSERT INTO coin_storing (owner, type, amount, createdAt, updatedAt) VALUES " . implode(', ', $values) . "
+                        ON DUPLICATE KEY UPDATE 
+                        amount = VALUES(amount), 
+                        createdAt = VALUES(createdAt), 
+                        updatedAt = VALUES(updatedAt)";
+
+        if ($this->conn->query($insertQuery) === TRUE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function coinsIncrementByOwnerAndType($owner, $type)
+    {
+        $existingRecord = $this->getCoinStoringByOwnerAndType($owner, $type);
+
+        if ($existingRecord) {
+            // If a record exists, update the amount by incrementing it by 1
+            $newAmount = $existingRecord['amount'] + 1;
+            return $this->updateCoinAmountByOwnerType($owner, $type, $newAmount);
+        } else {
+            // If no record exists, create a new record with value = 1
+            return $this->createCoinEntry($owner, $type, 1);
+        }
+    }
+
 
 
     // Method to deduct coins/banknotes for change from the inventory
@@ -132,9 +168,8 @@ class CoinStoring
         $MACHINE = 'machine';
 
         foreach ($changeDetails as $coin => $count) {
-            $updateQueries[] = "UPDATE coin_storing SET amount = CASE WHEN (amount - $count) < 0 THEN 0 ELSE (amount - $count) END WHERE type = $coin and owner = '$MACHINE'";
+            $updateQueries[] = "UPDATE coin_storing SET amount = (amount - $count) WHERE type = '$coin' and owner = '$MACHINE'";
         }
-
         // Execute all update queries as a transaction
         $this->conn->begin_transaction();
 
@@ -147,6 +182,35 @@ class CoinStoring
 
         $this->conn->commit();
         return "Coins/banknotes deducted for change successfully";
+    }
+    public function getUserMoney()
+    {
+        // Define acceptable coin types
+        $acceptableTypes = [1, 5, 10, 20, 100, 500, 1000];
+
+        // Construct the SQL query using a CASE statement to calculate total money
+        $sql = "SELECT SUM((CASE `type`
+                        WHEN '1' THEN 1
+                        WHEN '5' THEN 5
+                        WHEN '10' THEN 10
+                        WHEN '20' THEN 20
+                        WHEN '100' THEN 100
+                        WHEN '500' THEN 500
+                        WHEN '1000' THEN 1000
+                     END) * amount) AS total_money
+                FROM coin_storing
+                WHERE owner = 'user' AND `type`";
+
+        $result = $this->conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $totalUserMoney = $row['total_money'] ?? 0;
+
+            return $totalUserMoney;
+        }
+
+        return 0;
     }
 
 }

@@ -1,15 +1,12 @@
-// HomePage.js
-
 import React from "react";
-import CoinInsertion from "../components/CoinInsertion";
-import PaymentArea from "../components/PaymentArea";
+import VendingMachine from "../components/VendingMachine";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-      <CoinInsertion />
-      <PaymentArea />
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center font-sans">
+      <div className="w-full max-w-4xl px-4 md:px-0 mx-auto">
+        <VendingMachine />
+      </div>
     </div>
   );
 };

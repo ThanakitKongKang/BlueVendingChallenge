@@ -39,6 +39,6 @@ This function checks the health status of the server.
 - Use API endpoints to interact with the system.
 
 ## To Execute Unit Testing
-- Open Bash at project root directory
-- execute: ./vendor/bin/phpunit tests
+- Run `composer install` to install dependencies.
+- execute `./vendor/bin/phpunit tests` via bash
 

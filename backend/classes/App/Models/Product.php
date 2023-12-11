@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+
 use App\Services\Database;
 
 class Product
@@ -25,6 +26,23 @@ class Product
             return "Error: " . $stmt->error;
         }
     }
+
+    public function getAllProducts()
+    {
+        $sql = "SELECT * FROM products";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $entries = array();
+            while ($row = $result->fetch_assoc()) {
+                $entries[] = $row;
+            }
+            return $entries;
+        } else {
+            return [];
+        }
+    }
+
 
     // Read a product by ID
     public function getProductById($id)
@@ -95,9 +113,9 @@ class Product
         // Default data
         $defaultData = [
             ['Oishi Chakulza', 6, 15],
-            ['Pepsi can', 10, 12],
-            ['Snickers chocolate 35g.', 20, 22],
-            ['Lays', 6, 40],
+            ['Pepsi can', 20, 12],
+            ['Snickers chocolate 35g.', 40, 22],
+            ['Lays', 12, 40],
         ];
 
         // Current date

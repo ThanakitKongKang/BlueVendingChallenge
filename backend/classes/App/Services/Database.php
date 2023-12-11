@@ -9,7 +9,7 @@ class Database
     {
         date_default_timezone_set('Asia/Bangkok');
         if (!self::$conn) {
-            $host = 'mysql';
+            $host = getenv('DOCKER_ENV') === 'true' ? 'mysql' : 'localhost';
             $username = 'root';
             $password = 'root';
             $database = 'bluevend';
@@ -26,5 +26,4 @@ class Database
     }
 
 }
-
 ?>

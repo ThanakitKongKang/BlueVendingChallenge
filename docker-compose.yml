@@ -1,23 +1,27 @@
 version: "3"
 services:
-  frontend:
-    build: ./frontend
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    volumes:
-      - ./frontend:/app
-    ports:
-      - 3000:3000
-     depends_on:
-      - backend
-    networks:
-      - vending-network
+  # frontend:
+  #   build: ./frontend
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #   volumes:
+  #     - ./frontend:/app
+  #   environment:
+  #     - REACT_APP_IS_DOCKER =true
+  #   ports:
+  #     - 3000:3000
+  #    depends_on:
+  #     - backend
+  #   networks:
+  #     - vending-network
       
 
   backend:
     build: ./backend
     volumes:
       - ./backend:/app
+    environment:
+      - DOCKER_ENV=true
     ports:
       - 8000:8000
     networks:

@@ -65,6 +65,12 @@ class ProductTest extends TestCase
         $this->assertEquals('Product deleted successfully', $result);
     }
 
+    public function testGetAllProducts()
+    {
+        $result = $this->productModel->getAllProducts();
+        $this->assertIsArray($result);
+    }
+
     public function testResetToDefault()
     {
         $result = $this->productModel->resetToDefault();

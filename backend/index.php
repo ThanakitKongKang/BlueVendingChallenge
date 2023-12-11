@@ -4,18 +4,21 @@ spl_autoload_register(function ($className) {
     require_once __DIR__ . '/classes/' . str_replace('\\', '/', $className) . '.php';
 });
 
-use App\Services\Database;
 use App\Router;
 
-// Trigger database setup by calling getConnection()
-// Database::initDatabase();
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 
 $router = new Router();
 
 // Define routes
-$router->post('/insertCoins', 'MainController@insertCoins');
+$router->post('/coins/insert', 'MainController@insertCoins');
 $router->get('/reset', 'MainController@resetToDefault');
-$router->get('/selectProduct/{productId}/{userMoney}', 'MainController@selectProduct');
+$router->post('/products/buy', 'MainController@selectProduct');
+$router->get('/products', 'MainController@getAllProducts');
+$router->get('/user/money', 'MainController@getUserMoney');
+$router->get('/cancel', 'MainController@resetUserCoins');
 $router->get('/healthcheck', 'MainController@healthcheck');
 
 // Handle the request
