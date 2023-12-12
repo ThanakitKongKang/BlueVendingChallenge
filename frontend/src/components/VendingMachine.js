@@ -90,7 +90,7 @@ const VendingMachine = () => {
       <div className="bg-gray-200 p-4 rounded-lg shadow-lg w-full">
         <div className="flex flex-col items-center h-full">
           <h2 className="text-3xl mb-4 text-indigo-600">Blue Vending</h2>
-          <div className="flex space-x-4 h-full ">
+          <div className="flex space-x-4 h-full w-full ">
             <div className="w-3/5 pb-16 sm:pb-4 overflow-y-auto">
               <ItemSelection items={items} onItemSelect={onItemSelect} />
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 text-xs">
