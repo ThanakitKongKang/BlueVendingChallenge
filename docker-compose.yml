@@ -32,7 +32,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bluevend
     volumes:
-      - ./mysql-data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - vending-network

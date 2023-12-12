@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# React Vending Machine
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project implements a simple vending machine interface using React. It allows users to select items, insert coins, make purchases, restock products, and manage available changes.
 
-## Available Scripts
+### Prerequisites
+Make sure you have Node.js and npm (Node Package Manager) installed on your machine.
 
-In the project directory, you can run:
+### Running the Application
+Run the development server:
+```yarn start```
 
-### `yarn start`
+Run the unit testing:
+```yarn test```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Once the development server starts, you can access the application by visiting ```localhost:3000``` in your web browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
+- Item Selection: View available items with their prices and remaining stock. Select items for purchase.
+- Coin Insertion: Insert various denominations of coins (1฿, 5฿, 10฿, 20฿, 100฿, 500฿, 1000฿) to make a purchase.
+- Purchase Transactions: Complete purchases and receive change if applicable.
+- Restocking: Restock the available products and the machine's change supply.
+- Responsive Design: The application is designed to work on various screen sizes.
+## Components
+The main components of this project include:
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- VendingMachine: The main component managing the vending machine interface.
+- ItemSelection: Component displaying available items for selection.
+- CoinInsertion: Component for inserting coins and managing available changes.
+## Dependencies
+React
+React Toastify: Used for displaying toast notifications.
+Axios: For making HTTP requests to the API endpoints.
+## APIs
+This project utilizes API services for managing vending machine operations like fetching items, making purchases, inserting coins, restocking products, and managing available changes.
