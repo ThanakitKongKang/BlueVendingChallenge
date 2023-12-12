@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Determine baseURL based on whether running in Docker or localhost
 const isDocker = process.env.REACT_APP_IS_DOCKER === "true";
-const baseURL = isDocker ? "http://backend" : "http://localhost:8000";
+const baseURL = isDocker ? "http://backend:8000" : "http://localhost:8000";
 
 // Create an instance of Axios with the determined baseURL
 const axiosInstance = axios.create({ baseURL });

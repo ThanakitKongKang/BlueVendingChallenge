@@ -1,20 +1,18 @@
-# Use Node.js as the base image
-FROM node:latest
+# Stage 1: Build the React application
+FROM node:latest as build
 
-# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and yarn.lock to the working directory
 COPY package.json yarn.lock ./
-
-# Add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# Install dependencies using Yarn
-RUN yarn install --silent
-
-# Copy the entire app
+RUN yarn install --frozen-lockfile --silent
 COPY . .
+RUN yarn build
 
-# Set the command to start the React app
-CMD ["yarn", "start"]
+# Stage 2: Serve the built application using Nginx
+FROM nginx:latest
+
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

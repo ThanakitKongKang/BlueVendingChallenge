@@ -40,7 +40,7 @@ const VendingMachine = () => {
         fetchItems();
         const changes = calculateChanges(response.data);
         let changesDetail = Object.entries(response.data)
-          .map(([denomination, quantity]) => `${denomination}฿ ${quantity}x`)
+          .map(([denomination, quantity]) => `${denomination}฿ x${quantity}`)
           .join(", ");
         if (changes === 0) return;
         toast.info(
@@ -61,7 +61,7 @@ const VendingMachine = () => {
     });
     if (response) {
       fetchItems();
-      toast.success("Restocked products.")
+      toast.success("Restocked products.");
     }
   };
 
@@ -71,12 +71,18 @@ const VendingMachine = () => {
     });
     if (response) {
       setCoinInsertionKey((prevKey) => prevKey + 1);
-      toast.success("Restocked changes.")
+      toast.success("Restocked changes.");
     }
   };
 
+  const initialFetch = async () => {
+    await toast.promise(fetchItems(), {
+      pending: "Loading products",
+      success: "Loading successful! 👌",
+    });
+  };
   useEffect(() => {
-    fetchItems();
+    initialFetch();
   }, []);
 
   return (

@@ -1,20 +1,17 @@
 version: "3"
 services:
-  # frontend:
-  #   build: ./frontend
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
-  #   volumes:
-  #     - ./frontend:/app
-  #   environment:
-  #     - REACT_APP_IS_DOCKER =true
-  #   ports:
-  #     - 3000:3000
-  #    depends_on:
-  #     - backend
-  #   networks:
-  #     - vending-network
-      
+  frontend:
+    build: ./frontend
+    environment:
+      - REACT_APP_IS_DOCKER=true
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3000:80
+    depends_on:
+      - backend
+    networks:
+      - vending-network
 
   backend:
     build: ./backend
@@ -39,7 +36,7 @@ services:
       - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - vending-network
-      
+
 networks:
   vending-network:
     driver: bridge
