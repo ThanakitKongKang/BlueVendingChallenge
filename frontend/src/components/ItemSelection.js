@@ -2,8 +2,8 @@ import React from "react";
 
 const ItemSelection = ({ items, onItemSelect }) => {
   return (
-    <div>
-      <ul className="pb-16 sm:pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 max-h-full overflow-y-auto">
+    <div className="vending-item-selection">
+      <ul className="pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 max-h-full overflow-y-auto">
         {items?.data?.length > 0 &&
           items.data.map((item) => (
             <li key={item.id} className="bg-white rounded-lg shadow-md p-4">

@@ -50,6 +50,7 @@
     "eslint-plugin-chai": "^0.0.1",
     "mocha": "^10.2.0",
     "mocha-jsdom": "^2.0.0",
+    "sinon": "^17.0.1",
     "tailwindcss": "^3.3.6"
   },
   "plugins": [

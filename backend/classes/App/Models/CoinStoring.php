@@ -62,6 +62,24 @@ class CoinStoring
         }
     }
 
+    // Get all machine coin available
+    public function getMachineCoins()
+    {
+        $MACHINE = 'machine';
+        $sql = "SELECT `type`,amount FROM coin_storing WHERE owner = '$MACHINE'";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $coinEntries = array();
+            while ($row = $result->fetch_assoc()) {
+                $coinEntries[] = $row;
+            }
+            return $coinEntries;
+        } else {
+            return "No coin entries found";
+        }
+    }
+
     // Update coin amount by owner, type, and amount
     public function updateCoinAmountByOwnerType($owner, $type, $newAmount)
     {
@@ -159,8 +177,6 @@ class CoinStoring
         }
     }
 
-
-
     // Method to deduct coins/banknotes for change from the inventory
     public function deductCoinsForChange($changeDetails)
     {
@@ -183,11 +199,9 @@ class CoinStoring
         $this->conn->commit();
         return "Coins/banknotes deducted for change successfully";
     }
+
     public function getUserMoney()
     {
-        // Define acceptable coin types
-        $acceptableTypes = [1, 5, 10, 20, 100, 500, 1000];
-
         // Construct the SQL query using a CASE statement to calculate total money
         $sql = "SELECT SUM((CASE `type`
                         WHEN '1' THEN 1

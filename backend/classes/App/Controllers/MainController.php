@@ -68,6 +68,16 @@ class MainController
         $this->coinStoringModel->resetUserCoins();
     }
 
+    public function restockProduct()
+    {
+        $this->productModel->resetToDefault();
+    }
+
+    public function resetChanges()
+    {
+        $this->coinStoringModel->resetMachineCoins();
+    }
+
     // Select a product and perform necessary calculations
     public function selectProduct()
     {
@@ -155,6 +165,13 @@ class MainController
         $userMoney = $this->coinStoringModel->getUserMoney();
         header('Content-Type: application/json');
         echo json_encode($userMoney);
+    }
+
+    public function getMachineCoins()
+    {
+        $machineCoins = $this->coinStoringModel->getMachineCoins();
+        header('Content-Type: application/json');
+        echo json_encode($machineCoins);
     }
 
     public function getAllProducts()

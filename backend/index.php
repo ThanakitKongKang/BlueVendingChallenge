@@ -19,6 +19,11 @@ $router->post('/products/buy', 'MainController@selectProduct');
 $router->get('/products', 'MainController@getAllProducts');
 $router->get('/user/money', 'MainController@getUserMoney');
 $router->get('/cancel', 'MainController@resetUserCoins');
+$router->get('/machine/coins', 'MainController@getMachineCoins');
+
+$router->get('/admin/restock', 'MainController@restockProduct');
+$router->get('/admin/reset-changes', 'MainController@resetChanges');
+
 $router->get('/healthcheck', 'MainController@healthcheck');
 
 // Handle the request

@@ -24,7 +24,7 @@ describe("CoinInsertion Component", () => {
   it("should render input and button elements", () => {
     render(<CoinInsertion />, rootContainer);
 
-    const p = rootContainer.querySelector("p");
-    expect(p.textContent).contains("Insert Amount");
+    const title = rootContainer.querySelector("span.title");
+    expect(title.textContent).contains("Insert Amount");
   });
 });
